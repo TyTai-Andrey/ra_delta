@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
       <Head>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Layout Component={Component}>
+      <Layout withSearchHeader={Component.withSearchHeader}>
         <Component {...pageProps} />
       </Layout>
     </Provider>
