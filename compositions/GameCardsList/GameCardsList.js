@@ -22,6 +22,12 @@ const Conteiner = styled.div`
     grid-column-gap: 2%;
     grid-row-gap: 0.4em;
   }
+  @media (min-width: 1040px) {
+    display: grid;
+    grid-template-columns: repeat(3, 32.5%);
+    grid-column-gap: 1.25%;
+    grid-row-gap: 0.4em;
+  }
 `;
 
 export const GameCardsList = () => {

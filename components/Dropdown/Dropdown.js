@@ -25,6 +25,7 @@ const DropdownList = styled.ul`
 
   & > li {
     padding: 5px 10px;
+    font-size: 1em;
 
     &:not(:last-child) {
       border-bottom: 1px solid #ccc;

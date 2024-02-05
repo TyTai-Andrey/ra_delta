@@ -9,6 +9,7 @@ const Button = styled.button`
   cursor: pointer;
 
   padding: 10px 15px;
+  font-size: 1em;
 `;
 
 export const SortButtons = ({ fields }) => {

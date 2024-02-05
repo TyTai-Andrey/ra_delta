@@ -23,6 +23,7 @@ const Info = styled.div`
 
   background-color: rgba(0, 0, 0, 0.6);
   overflow: hidden;
+  font-size: 1.2em;
 `;
 
 const Image = styled(ImageNext)`

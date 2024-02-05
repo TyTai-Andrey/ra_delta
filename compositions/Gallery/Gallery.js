@@ -57,6 +57,11 @@ const Button = styled.button`
     color: #ccc;
     background-color: rgba(85, 85, 85, 0.5);
   }
+
+  @media (min-width: 580px) {
+    width: 2em;
+    height: 2em;
+  }
 `;
 
 export const Gallery = ({ images, gameName }) => {

@@ -22,6 +22,7 @@ const Conteiner = styled.header`
 
 const LinksContainer = styled.div`
   margin-right: 20px;
+  font-size: 1.8em;
 `;
 
 export const Header = ({ withSearch }) => {

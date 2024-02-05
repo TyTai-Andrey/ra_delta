@@ -6,4 +6,5 @@ export const Input = styled.input`
 
   outline: none;
   border: 1px solid #fff;
+  font-size: 1em;
 `;
