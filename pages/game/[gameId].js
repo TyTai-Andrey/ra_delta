@@ -1,26 +1,63 @@
+import { getClientAxios } from '@/api/BaseApi';
 import GamesApi from '@/api/GamesApi';
+import { GameCard } from '@/components/GameCard/GameCard';
+import { Gallery } from '@/compositions/Gallery/Gallery';
+import Head from 'next/head';
+import styled from 'styled-components';
 
-const Game = ({ gameId, data, screenshots }) => {
-  console.log(data);
-  console.log(screenshots);
+const Description = styled.div`
+  text-align: justify;
+`;
 
+const Game = ({ game = {}, screenshotsData }) => {
+  const { results: images } = screenshotsData || { results: [] };
   return (
-    <div>
-      <div>{gameId || 'notfound'}</div>
-      <div>{data.description_raw || 'notfound'}</div>
-      <div>{data.website}</div>
-    </div>
+    <>
+      <Head>
+        <title>{`${game.name} | Game`}</title>
+        <meta name='description' content={game.name} />
+      </Head>
+      <GameCard
+        game={game}
+        heightAutoImage
+        minHeightImage={300}
+        noPadding
+        website={game.website}
+        priority
+      />
+      <Description>{game.description_raw}</Description>
+      <Gallery images={images} gameName={game.name} />
+    </>
   );
 };
 
 export default Game;
 
-export const getStaticPaths = async () => {
-  const data = await GamesApi.getList({ page_size: 1 });
+const getPathsIds = async (url = 'https://api.rawg.io/api/games', first) => {
+  const { data } = await getClientAxios.get(
+    url,
+    !first
+      ? {
+          params: { page_size: 40, key: '7dcb6f1da7f74a5786b46a791a0965ca' },
+        }
+      : {},
+  );
 
-  const paths = new Array(data.count).fill('').map((_, id) => ({
-    params: { gameId: String(id + 1) },
+  let paths = data?.results?.map((i) => ({
+    params: { gameId: String(i.id) },
   }));
+
+  // !first - не хочу билдить себе 850 000+ страниц
+  if (data.next && !first) {
+    const add = await getPathsIds(data.next, true);
+    return [...paths, ...add];
+  }
+
+  return paths;
+};
+
+export const getStaticPaths = async () => {
+  const paths = await getPathsIds();
   return { paths, fallback: 'blocking' };
 };
 
@@ -29,10 +66,10 @@ export const getStaticProps = async (ctx) => {
     params: { gameId },
   } = ctx;
 
-  const data = await GamesApi.getGamebyId(gameId);
-  const screenshots = await GamesApi.getScreenshotsGamebyId(gameId);
+  const game = await GamesApi.getGamebyId(gameId);
+  const screenshotsData = await GamesApi.getScreenshotsGamebyId(gameId);
 
   return {
-    props: { gameId, data, screenshots },
+    props: { game, screenshotsData },
   };
 };

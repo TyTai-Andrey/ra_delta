@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+export const getClientAxios = axios.create({
+  headers: {
+    Accept: 'application/json',
+  },
+});
+
 export default class BaseApi {
   static getClient() {
     return axios.create({
