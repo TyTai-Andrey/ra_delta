@@ -26,6 +26,11 @@ const DropdownList = styled.ul`
   & > li {
     padding: 5px 10px;
     font-size: 1em;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #ffe;
+    }
 
     &:not(:last-child) {
       border-bottom: 1px solid #ccc;
